@@ -30,14 +30,17 @@ config = {
 # define callback function for message
 def on_message(client, userdata, message):
   payload = message.payload.decode('utf-8')
+  print(payload)
 
   try:
     data = json.loads(payload)
     temperatura = data['temperatura']
-    humedad = 23
-    print(temperatura)
+    humedad = data['humedad']
+    voltajeradiacion = data['voltajeradiacion']
+    valorradiacion = data['valorradiacion']
+    agua = data['agua']
     url = 'http://localhost:8000/api/esp32'
-    esp={'temperatura': temperatura, 'humedad': humedad}
+    esp={'temperatura': temperatura, 'humedad': humedad, 'voltajeradiacion': voltajeradiacion, 'valorradiacion': valorradiacion, 'agua': agua}
 
     x = requests.post(url, json=esp)
     #print("Esp en json:" + esp)

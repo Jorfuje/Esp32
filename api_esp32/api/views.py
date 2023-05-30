@@ -23,6 +23,8 @@ class Esp32View(View):
     
     def post(self, request):
         jd = json.loads(request.body)
-        Esp.objects.create(temperatura=jd['temperatura'], humedad=jd['humedad'])
+        Esp.objects.create(temperatura=jd['temperatura'], humedad=jd['humedad'], 
+                           voltajeradiacion=jd['voltajeradiacion'], valorradiacion=jd['valorradiacion'],
+                           agua=jd['agua'])
         datos = {'message': "Success"}
         return JsonResponse(datos)
