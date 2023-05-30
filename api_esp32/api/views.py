@@ -13,13 +13,23 @@ class Esp32View(View):
     def dispatch(self, request, *args, **kwargs):
         return super().dispatch(request, *args, **kwargs)
     
-    def get(sel,request):
-        esps=list(Esp.objects.values())
-        if len(esps)>0:
-            datos = {'message': "Success", 'esps': esps}
+
+    def get(sel,request,id=0):
+        if(id>0):
+            esps=list(Esp.objects.filter(id=id).values())
+            if len(esps) >0:
+                esp=esps[0]
+                datos = {'message': "Success", 'esp': esp}
+            else:
+                datos = {'message': "Esp not found ..."}
+            return JsonResponse(datos)
         else:
-            datos = {'message': "Esp not found ..."}
-        return JsonResponse(datos)
+            esps=list(Esp.objects.values())
+            if len(esps)>0:
+                datos = {'message': "Success", 'esps': esps}
+            else:
+                datos = {'message': "Esp not found ..."}
+            return JsonResponse(datos)
     
     def post(self, request):
         jd = json.loads(request.body)
@@ -35,5 +45,5 @@ class Esp32View(View):
             Esp.objects.filter(id=id).delete()
             datos = {'message': "Success"}
         else:
-            datos = {'message': "Clientes not found"}
+            datos = {'message': "Esp not found"}
         return JsonResponse(datos)
