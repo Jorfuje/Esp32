@@ -28,3 +28,12 @@ class Esp32View(View):
                            agua=jd['agua'])
         datos = {'message': "Success"}
         return JsonResponse(datos)
+    
+    def delete(self, request, id):
+        esps = list(Esp.objects.filter(id=id).values())
+        if len(esps) > 0:
+            Esp.objects.filter(id=id).delete()
+            datos = {'message': "Success"}
+        else:
+            datos = {'message': "Clientes not found"}
+        return JsonResponse(datos)
